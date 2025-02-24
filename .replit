@@ -12,6 +12,17 @@ channel = "stable-24_05"
 language = "nodejs"
 
 [deployment]
-run = ["node", "index.js"]
+run = ["sh", "-c", "node index.js"]
 deploymentTarget = "cloudrun"
 ignorePorts = false
+
+[workflows]
+runButton = "Run server"
+
+[[workflows.workflow]]
+name = "Run server"
+author = 9435788
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node index.js"
