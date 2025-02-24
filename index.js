@@ -1,3 +1,15 @@
+const express = require('express');
+const path = require('path');
+const app = express();
+
+// Serve static files from current directory
+app.use(express.static('./'));
+
+const PORT = 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running at http://0.0.0.0:${PORT}`);
+});
+
 // Список слов с переводами (часть списка для примера)
 const words = [
     { spanish: "Luis", russian: "Луис" },
@@ -68,11 +80,11 @@ function renderRightColumn() {
 // Выбор испанского слова
 function selectSpanish(index) {
     if (selectedSpanish !== null) {
-        const prev = document.querySelector(.word[data-index="${selectedSpanish}"]);
+        const prev = document.querySelector(`.word[data-index="${selectedSpanish}"]`);
         prev.classList.remove("selected");
     }
     selectedSpanish = index;
-    const current = document.querySelector(.word[data-index="${index}"]);
+    const current = document.querySelector(`.word[data-index="${index}"]`);
     current.classList.add("selected");
 }
 
@@ -82,8 +94,8 @@ function selectRussian(index) {
 
     const selectedWord = currentPairs[selectedSpanish];
     const selectedRussian = rightColumn[index];
-    const wordDiv = document.querySelector(.word[data-index="${selectedSpanish}"]);
-    const transDiv = document.querySelector(.translation[data-index="${index}"]);
+    const wordDiv = document.querySelector(`.word[data-index="${selectedSpanish}"]`);
+    const transDiv = document.querySelector(`.translation[data-index="${index}"]`);
 
     if (selectedRussian === selectedWord.russian) {
         // Правильный выбор
@@ -106,28 +118,28 @@ function replacePair(spanishIndex, russianIndex) {
     const newPair = words[poolIndex];
     poolIndex = (poolIndex + 1) % words.length;
 
-    const wordDiv = document.querySelector(.word[data-index="${spanishIndex}"]);
-    const transDiv = document.querySelector(.translation[data-index="${russianIndex}"]);
+    const wordDiv = document.querySelector(`.word[data-index="${spanishIndex}"]`);
+    const transDiv = document.querySelector(`.translation[data-index="${russianIndex}"]`);
 
     currentPairs[spanishIndex] = newPair;
     rightColumn[russianIndex] = newPair.russian;
     wordDiv.textContent = newPair.spanish;
-        wordDiv.classList.remove("correct", "selected");
-        transDiv.textContent = newPair.russian;
-        transDiv.classList.remove("correct");
+    wordDiv.classList.remove("correct", "selected");
+    transDiv.textContent = newPair.russian;
+    transDiv.classList.remove("correct");
 
-        selectedSpanish = null;
-    }
+    selectedSpanish = null;
+}
 
-    // Инициализация приложения
-    function init() {
-        shuffle(words);
-        currentPairs = words.slice(0, 4);
-        rightColumn = currentPairs.map(pair => pair.russian);
-        shuffle(rightColumn);
-        renderLeftColumn();
-        renderRightColumn();
-    }
+// Инициализация приложения
+function init() {
+    shuffle(words);
+    currentPairs = words.slice(0, 4);
+    rightColumn = currentPairs.map(pair => pair.russian);
+    shuffle(rightColumn);
+    renderLeftColumn();
+    renderRightColumn();
+}
 
-    // Запуск приложения
-    init();
+// Запуск приложения
+init();
