@@ -1,14 +1,8 @@
-const { JSDOM } = require('jsdom');
 
-// Создаем виртуальный DOM
-const dom = new JSDOM(`<!DOCTYPE html><div id="container"><div id="left-column"></div><div id="right-column"></div></div>`);
-const document = dom.window.document;
-
-// Ваш исходный код из script.js вставляется сюда
+// Список слов с переводами (часть списка для примера)
 const words = [
     { spanish: "Luis", russian: "Луис" },
-    { spanish: "Diego", russian: "Диего" },
-    // ... остальные слова
+    { spanish: "Diego", russian: "Диего" }
 ];
 
 // Переменные состояния
@@ -29,10 +23,12 @@ function renderLeftColumn() {
     leftColumn.innerHTML = "";
     currentPairs.forEach((pair, index) => {
         const wordDiv = document.createElement("div");
+        wordDiv.className = "word";
+        wordDiv.dataset.index = index;
         wordDiv.textContent = pair.spanish;
+        wordDiv.onclick = () => selectSpanish(index);
         leftColumn.appendChild(wordDiv);
     });
-    console.log("Left column:", leftColumn.innerHTML);
 }
 
 function renderRightColumn() {
@@ -40,12 +36,67 @@ function renderRightColumn() {
     rightColumnDiv.innerHTML = "";
     rightColumn.forEach((russian, index) => {
         const transDiv = document.createElement("div");
+        transDiv.className = "translation";
+        transDiv.dataset.index = index;
         transDiv.textContent = russian;
+        transDiv.onclick = () => selectTranslation(index);
         rightColumnDiv.appendChild(transDiv);
     });
-    console.log("Right column:", rightColumnDiv.innerHTML);
 }
 
+function selectSpanish(index) {
+    if (selectedSpanish !== null) {
+        const prev = document.querySelector(`.word[data-index="${selectedSpanish}"]`);
+        prev.classList.remove("selected");
+    }
+    selectedSpanish = index;
+    const current = document.querySelector(`.word[data-index="${index}"]`);
+    current.classList.add("selected");
+}
+
+function selectTranslation(index) {
+    if (selectedSpanish === null) return;
+
+    const selectedWord = currentPairs[selectedSpanish];
+    const selectedRussian = rightColumn[index];
+    const wordDiv = document.querySelector(`.word[data-index="${selectedSpanish}"]`);
+    const transDiv = document.querySelector(`.translation[data-index="${index}"]`);
+
+    if (selectedRussian === selectedWord.russian) {
+        // Правильный выбор
+        wordDiv.classList.add("correct");
+        transDiv.classList.add("correct");
+        setTimeout(() => replacePair(selectedSpanish, index), 1000);
+    } else {
+        // Неправильный выбор
+        wordDiv.classList.add("incorrect");
+        transDiv.classList.add("incorrect");
+        setTimeout(() => {
+            wordDiv.classList.remove("incorrect", "selected");
+            transDiv.classList.remove("incorrect");
+            selectedSpanish = null;
+        }, 1000);
+    }
+}
+
+function replacePair(spanishIndex, russianIndex) {
+    const newPair = words[poolIndex];
+    poolIndex = (poolIndex + 1) % words.length;
+
+    const wordDiv = document.querySelector(`.word[data-index="${spanishIndex}"]`);
+    const transDiv = document.querySelector(`.translation[data-index="${russianIndex}"]`);
+
+    currentPairs[spanishIndex] = newPair;
+    rightColumn[russianIndex] = newPair.russian;
+    wordDiv.textContent = newPair.spanish;
+    wordDiv.classList.remove("correct", "selected");
+    transDiv.textContent = newPair.russian;
+    transDiv.classList.remove("correct");
+
+    selectedSpanish = null;
+}
+
+// Инициализация приложения
 function init() {
     shuffle(words);
     currentPairs = words.slice(0, 4);
@@ -55,4 +106,5 @@ function init() {
     renderRightColumn();
 }
 
+// Запуск приложения
 init();
