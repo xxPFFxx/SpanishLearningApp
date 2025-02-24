@@ -1,8 +1,25 @@
-
-// Список слов с переводами (часть списка для примера)
+// Список слов с переводами
 const words = [
     { spanish: "Luis", russian: "Луис" },
-    { spanish: "Diego", russian: "Диего" }
+    { spanish: "Diego", russian: "Диего" },
+    { spanish: "Ana", russian: "Ана" },
+    { spanish: "María", russian: "Мария" },
+    { spanish: "yo", russian: "я" },
+    { spanish: "tú", russian: "ты" },
+    { spanish: "él", russian: "он" },
+    { spanish: "ella", russian: "она" },
+    { spanish: "hola", russian: "привет" },
+    { spanish: "gracias", russian: "спасибо" },
+    { spanish: "sí", russian: "да" },
+    { spanish: "no", russian: "нет" },
+    { spanish: "quiere", russian: "хочет" },
+    { spanish: "es", russian: "есть" },
+    { spanish: "tengo", russian: "имею" },
+    { spanish: "hablar", russian: "говорить" },
+    { spanish: "vivir", russian: "жить" },
+    { spanish: "bailar", russian: "танцевать" },
+    { spanish: "cantar", russian: "петь" },
+    { spanish: "escuchar", russian: "слушать" },
 ];
 
 // Переменные состояния
@@ -11,6 +28,7 @@ let rightColumn = [];
 let selectedSpanish = null;
 let poolIndex = 4;
 
+// Функция для перемешивания массива
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -18,6 +36,7 @@ function shuffle(array) {
     }
 }
 
+// Отрисовка левой колонки (испанские слова)
 function renderLeftColumn() {
     const leftColumn = document.getElementById("left-column");
     leftColumn.innerHTML = "";
@@ -26,11 +45,12 @@ function renderLeftColumn() {
         wordDiv.className = "word";
         wordDiv.dataset.index = index;
         wordDiv.textContent = pair.spanish;
-        wordDiv.onclick = () => selectSpanish(index);
+        wordDiv.addEventListener("click", () => selectSpanish(index));
         leftColumn.appendChild(wordDiv);
     });
 }
 
+// Отрисовка правой колонки (русские переводы)
 function renderRightColumn() {
     const rightColumnDiv = document.getElementById("right-column");
     rightColumnDiv.innerHTML = "";
@@ -39,11 +59,12 @@ function renderRightColumn() {
         transDiv.className = "translation";
         transDiv.dataset.index = index;
         transDiv.textContent = russian;
-        transDiv.onclick = () => selectTranslation(index);
+        transDiv.addEventListener("click", () => selectRussian(index));
         rightColumnDiv.appendChild(transDiv);
     });
 }
 
+// Выбор испанского слова
 function selectSpanish(index) {
     if (selectedSpanish !== null) {
         const prev = document.querySelector(`.word[data-index="${selectedSpanish}"]`);
@@ -54,7 +75,8 @@ function selectSpanish(index) {
     current.classList.add("selected");
 }
 
-function selectTranslation(index) {
+// Выбор русского перевода
+function selectRussian(index) {
     if (selectedSpanish === null) return;
 
     const selectedWord = currentPairs[selectedSpanish];
@@ -72,13 +94,13 @@ function selectTranslation(index) {
         wordDiv.classList.add("incorrect");
         transDiv.classList.add("incorrect");
         setTimeout(() => {
-            wordDiv.classList.remove("incorrect", "selected");
+            wordDiv.classList.remove("incorrect");
             transDiv.classList.remove("incorrect");
-            selectedSpanish = null;
         }, 1000);
     }
 }
 
+// Замена пары после правильного выбора
 function replacePair(spanishIndex, russianIndex) {
     const newPair = words[poolIndex];
     poolIndex = (poolIndex + 1) % words.length;
@@ -88,6 +110,7 @@ function replacePair(spanishIndex, russianIndex) {
 
     currentPairs[spanishIndex] = newPair;
     rightColumn[russianIndex] = newPair.russian;
+
     wordDiv.textContent = newPair.spanish;
     wordDiv.classList.remove("correct", "selected");
     transDiv.textContent = newPair.russian;
