@@ -1,0 +1,37 @@
+#container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+#left-column, #right-column {
+  width: 40%;
+  margin: 0 10px;
+}
+
+.word, .translation {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #333;
+  cursor: pointer;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.word:hover, .translation:hover {
+  background-color: #e0e0e0;
+}
+
+.selected {
+  background-color: yellow;
+}
+
+.correct {
+  background-color: green;
+  color: white;
+}
+
+.incorrect {
+  background-color: red;
+  color: white;
+}
