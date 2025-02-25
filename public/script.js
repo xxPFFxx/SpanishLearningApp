@@ -88,7 +88,7 @@ function selectRussian(index) {
         // Правильный выбор
         wordDiv.classList.add("correct");
         transDiv.classList.add("correct");
-        setTimeout(() => replacePair(selectedSpanish, index), 1000);
+        setTimeout(() => replacePair(selectedSpanish), 1000);
     } else {
         // Неправильный выбор
         wordDiv.classList.add("incorrect");
@@ -100,34 +100,38 @@ function selectRussian(index) {
     }
 }
 
-// Замена пары после правильного выбора
-function replacePair(spanishIndex, russianIndex) {
+// Замена пары после правильного выбора с перемешиванием обоих столбцов
+function replacePair(spanishIndex) {
+    // Получаем новую пару
     const newPair = words[poolIndex];
     poolIndex = (poolIndex + 1) % words.length;
 
-    const wordDiv = document.querySelector(`.word[data-index="${spanishIndex}"]`);
-    const transDiv = document.querySelector(`.translation[data-index="${russianIndex}"]`);
-
+    // Заменяем угаданную пару в currentPairs
     currentPairs[spanishIndex] = newPair;
-    rightColumn[russianIndex] = newPair.russian;
 
-    wordDiv.textContent = newPair.spanish;
-    wordDiv.classList.remove("correct", "selected");
-    transDiv.textContent = newPair.russian;
-    transDiv.classList.remove("correct");
+    // Перемешиваем все пары в левой колонке
+    shuffle(currentPairs);
+    // Обновляем правую колонку с новыми переводами и перемешиваем её
+        rightColumn = currentPairs.map(pair => pair.russian);
+        shuffle(rightColumn);
 
-    selectedSpanish = null;
-}
+        // Перерисовываем оба столбца
+        renderLeftColumn();
+        renderRightColumn();
 
-// Инициализация приложения
-function init() {
-    shuffle(words);
-    currentPairs = words.slice(0, 4);
-    rightColumn = currentPairs.map(pair => pair.russian);
-    shuffle(rightColumn);
-    renderLeftColumn();
-    renderRightColumn();
-}
+        // Сбрасываем выбор
+        selectedSpanish = null;
+    }
 
-// Запуск приложения
-init();
+    // Инициализация приложения
+    function init() {
+        shuffle(words);
+        currentPairs = words.slice(0, 4);
+        rightColumn = currentPairs.map(pair => pair.russian);
+        shuffle(rightColumn);
+        renderLeftColumn();
+        renderRightColumn();
+    }
+
+    // Запуск приложения
+    init();

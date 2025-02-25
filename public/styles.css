@@ -10,12 +10,14 @@
 }
 
 .word, .translation {
-  padding: 10px;
-  margin: 5px;
+  padding: 15px; /* Увеличим отступы внутри блоков */
+  margin: 10px; /* Увеличим отступы между блоками */
   border: 1px solid #333;
   cursor: pointer;
   text-align: center;
   background-color: #f9f9f9;
+  font-size: 24px; /* Увеличим размер шрифта */
+  border-radius: 10px; /* Добавим закругленные края */
 }
 
 .word:hover, .translation:hover {

@@ -12,7 +12,7 @@ channel = "stable-24_05"
 language = "nodejs"
 
 [deployment]
-run = ["sh", "-c", "node app.js"]
+run = ["sh", "-c", "node index.js"]
 deploymentTarget = "cloudrun"
 ignorePorts = false
 
@@ -25,7 +25,7 @@ author = 9435788
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node app.js"
+args = "node index.js"
 
 [[ports]]
 localPort = 3000
