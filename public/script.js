@@ -27,6 +27,7 @@ let currentPairs = [];
 let rightColumn = [];
 let selectedSpanish = null;
 let poolIndex = 4;
+let consecutiveCorrect = 0; // Переменная для счетчика подряд угаданных слов
 
 // Функция для перемешивания массива
 function shuffle(array) {
@@ -85,53 +86,61 @@ function selectRussian(index) {
     const transDiv = document.querySelector(`.translation[data-index="${index}"]`);
 
     if (selectedRussian === selectedWord.russian) {
-        // Правильный выбор
         wordDiv.classList.add("correct");
         transDiv.classList.add("correct");
+        consecutiveCorrect++; // Увеличиваем счетчик при правильном ответе
+        updateCounter(); // Обновляем отображение
         setTimeout(() => replacePair(selectedSpanish), 1000);
+        window.Telegram.WebApp.showAlert("Правильно!");
     } else {
-        // Неправильный выбор
         wordDiv.classList.add("incorrect");
         transDiv.classList.add("incorrect");
+        consecutiveCorrect = 0; // Сбрасываем счетчик при ошибке
+        updateCounter(); // Обновляем отображение
         setTimeout(() => {
             wordDiv.classList.remove("incorrect");
             transDiv.classList.remove("incorrect");
         }, 1000);
+        window.Telegram.WebApp.showAlert("Неправильно, попробуй снова!");
     }
 }
 
 // Замена пары после правильного выбора с перемешиванием обоих столбцов
 function replacePair(spanishIndex) {
-    // Получаем новую пару
     const newPair = words[poolIndex];
     poolIndex = (poolIndex + 1) % words.length;
 
-    // Заменяем угаданную пару в currentPairs
     currentPairs[spanishIndex] = newPair;
-
-    // Перемешиваем все пары в левой колонке
     shuffle(currentPairs);
-    // Обновляем правую колонку с новыми переводами и перемешиваем её
-        rightColumn = currentPairs.map(pair => pair.russian);
-        shuffle(rightColumn);
 
-        // Перерисовываем оба столбца
-        renderLeftColumn();
-        renderRightColumn();
+    rightColumn = currentPairs.map(pair => pair.russian);
+    shuffle(rightColumn);
 
-        // Сбрасываем выбор
-        selectedSpanish = null;
-    }
+    renderLeftColumn();
+    renderRightColumn();
 
-    // Инициализация приложения
-    function init() {
-        shuffle(words);
-        currentPairs = words.slice(0, 4);
-        rightColumn = currentPairs.map(pair => pair.russian);
-        shuffle(rightColumn);
-        renderLeftColumn();
-        renderRightColumn();
-    }
+    selectedSpanish = null;
+}
 
-    // Запуск приложения
-    init();
+// Функция для обновления счетчика
+function updateCounter() {
+    const counterElement = document.getElementById("counter");
+    counterElement.textContent = `Угадано подряд: ${consecutiveCorrect}`;
+}
+
+// Инициализация приложения
+function init() {
+    shuffle(words);
+    currentPairs = words.slice(0, 4);
+    rightColumn = currentPairs.map(pair => pair.russian);
+    shuffle(rightColumn);
+    renderLeftColumn();
+    renderRightColumn();
+    updateCounter(); // Инициализируем счетчик при запуске
+
+    window.Telegram.WebApp.ready(); // Сообщаем Telegram, что приложение готово
+    window.Telegram.WebApp.expand(); // Разворачиваем приложение на полный экран
+}
+
+// Запуск приложения
+init();
