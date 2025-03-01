@@ -580,24 +580,22 @@ const shortWords = [
         { spanish: "ahora mismo", russian: "прямо сейчас" }
     ];
 
-// Определяем currentWords в зависимости от параметра list
-let currentWords = fullWords;
+// Определяем currentWords и remainingWords в зависимости от параметра list
+let currentWords;
+let remainingWords;
 const urlParams = new URLSearchParams(window.location.search);
 const list = urlParams.get('list');
-console.log('Selected list:', list); // Логирование для проверки
 if (list === 'short') {
     currentWords = shortWords;
-    console.log('Using shortWords:', shortWords.length);
 } else {
     currentWords = fullWords;
-    console.log('Using fullWords:', fullWords.length);
 }
+remainingWords = [...currentWords]; // Создаем копию выбранного списка
 
 // Переменные состояния
 let currentPairs = [];
 let rightColumn = [];
 let selectedSpanish = null;
-let poolIndex = 4;
 let consecutiveCorrect = 0;
 
 // Функция для перемешивания массива
@@ -622,6 +620,9 @@ function renderLeftColumn() {
         wordDiv.dataset.index = index;
         wordDiv.textContent = pair.spanish;
         wordDiv.addEventListener("click", () => selectSpanish(index));
+        if (selectedSpanish === index) {
+            wordDiv.classList.add("selected");
+        }
         leftColumn.appendChild(wordDiv);
     });
     console.log('Left column rendered with:', currentPairs);
@@ -650,11 +651,11 @@ function renderRightColumn() {
 function selectSpanish(index) {
     if (selectedSpanish !== null) {
         const prev = document.querySelector(`.word[data-index="${selectedSpanish}"]`);
-        prev.classList.remove("selected");
+        if (prev) prev.classList.remove("selected");
     }
     selectedSpanish = index;
     const current = document.querySelector(`.word[data-index="${index}"]`);
-    current.classList.add("selected");
+    if (current) current.classList.add("selected");
 }
 
 // Выбор русского перевода
@@ -671,7 +672,14 @@ function selectRussian(index) {
         transDiv.classList.add("correct");
         consecutiveCorrect++;
         updateCounter();
-        setTimeout(() => replacePair(selectedSpanish), 1000);
+        setTimeout(() => {
+            removeWord(selectedWord);
+            if (remainingWords.length > 0) {
+                replacePair(selectedSpanish);
+            } else {
+                showRestartOption();
+            }
+        }, 1000);
     } else {
         wordDiv.classList.add("incorrect");
         transDiv.classList.add("incorrect");
@@ -680,31 +688,58 @@ function selectRussian(index) {
         setTimeout(() => {
             wordDiv.classList.remove("incorrect");
             transDiv.classList.remove("incorrect");
+            selectedSpanish = null;
+            renderLeftColumn();
         }, 1000);
     }
 }
 
+// Удаление угаданного слова
+function removeWord(word) {
+    const index = remainingWords.findIndex(w => w.spanish === word.spanish);
+    if (index !== -1) {
+        remainingWords.splice(index, 1);
+    }
+    console.log('Remaining words:', remainingWords.length);
+}
+
 // Замена пары после правильного выбора
 function replacePair(spanishIndex) {
-    const newPair = currentWords[poolIndex];
-    poolIndex = (poolIndex + 1) % currentWords.length;
+    if (remainingWords.length === 0) return;
 
+    const newPair = remainingWords[Math.floor(Math.random() * remainingWords.length)];
     currentPairs[spanishIndex] = newPair;
     shuffle(currentPairs);
-
     rightColumn = currentPairs.map(pair => pair.russian);
     shuffle(rightColumn);
 
     renderLeftColumn();
     renderRightColumn();
-
     selectedSpanish = null;
 }
 
+// Показ предложения начать заново
+function showRestartOption() {
+    const container = document.getElementById("container");
+    const counterContainer = document.getElementById("counter-container");
+    container.innerHTML = `
+        <p>Поздравляем! Вы угадали все слова!</p>
+        <button id="restart">Начать заново</button>
+    `;
+    counterContainer.style.display = 'none'; // Скрываем счетчик
+    document.getElementById("restart").addEventListener("click", () => {
+        remainingWords = [...currentWords]; // Сброс списка
+        consecutiveCorrect = 0; // Сброс счетчика
+        counterContainer.style.display = 'block'; // Показываем счетчик обратно
+        init(); // Перезапуск игры
+    });
+}
+
+// Обновление счетчика с символом огня и оранжевым числом
 function updateCounter() {
     const counterElement = document.getElementById("counter");
     if (!counterElement) {
-        console.error('Элемент счетчика не найден');
+        console.error('Counter element not found');
         return;
     }
     counterElement.textContent = consecutiveCorrect;
@@ -712,8 +747,8 @@ function updateCounter() {
 
 // Инициализация приложения
 function init() {
-    shuffle(currentWords);
-    currentPairs = currentWords.slice(0, 4);
+    shuffle(remainingWords);
+    currentPairs = remainingWords.slice(0, 4); // Начинаем с 4 слов
     rightColumn = currentPairs.map(pair => pair.russian);
     shuffle(rightColumn);
 
