@@ -1,4 +1,4 @@
-// Список слов с переводами (обновлен по вашему запросу)
+// Список слов с переводами
 const words = [
     { spanish: "yo", russian: "я" },
     { spanish: "tú", russian: "ты" },
@@ -403,12 +403,199 @@ const words = [
     { spanish: "unos", russian: "несколько" }
 ];
 
+// Краткий список слов
+const shortWords = [
+    { spanish: "nosotros", russian: "мы" },
+    { spanish: "ustedes", russian: "вы (мн.ч.)" },
+    { spanish: "maleta", russian: "чемодан" },
+    { spanish: "vestido", russian: "платье" },
+    { spanish: "mochila", russian: "рюкзак" },
+    { spanish: "tienda", russian: "магазин" },
+    { spanish: "estacionamento", russian: "парковка" },
+    { spanish: "escuela", russian: "школа" },
+    { spanish: "abrigo", russian: "пальто" },
+    { spanish: "enero", russian: "январь" },
+    { spanish: "verano", russian: "лето" },
+    { spanish: "país", russian: "страна" },
+    { spanish: "primavera", russian: "весна" },
+    { spanish: "marzo", russian: "март" },
+    { spanish: "invierno", russian: "зима" },
+    { spanish: "durazno", russian: "персик" },
+    { spanish: "piña", russian: "ананас" },
+    { spanish: "sandía", russian: "арбуз" },
+    { spanish: "mercado", russian: "рынок" },
+    { spanish: "bolsa", russian: "сумка" },
+    { spanish: "naranja", russian: "апельсин" },
+    { spanish: "edificio", russian: "здание" },
+    { spanish: "apartamento", russian: "квартира" },
+    { spanish: "piso", russian: "этаж" },
+    { spanish: "pareja", russian: "пара" },
+    { spanish: "calle", russian: "улица" },
+    { spanish: "película", russian: "фильм" },
+    { spanish: "pollo", russian: "курица" },
+    { spanish: "equipo", russian: "команда" },
+    { spanish: "entrenador", russian: "тренер" },
+    { spanish: "vecino", russian: "сосед" },
+    { spanish: "colegio", russian: "школа" },
+    { spanish: "tarea", russian: "задание" },
+    { spanish: "ejercicio", russian: "упражнение" },
+    { spanish: "cuenta", russian: "счет" },
+    { spanish: "queso", russian: "сыр" },
+    { spanish: "carne", russian: "мясо" },
+    { spanish: "huevo", russian: "яйцо" },
+    { spanish: "pastel", russian: "пирог" },
+    { spanish: "batido", russian: "коктейль" },
+    { spanish: "bebida", russian: "напиток" },
+    { spanish: "desayuno", russian: "завтрак" },
+    { spanish: "precio", russian: "цена" },
+    { spanish: "comida", russian: "еда" },
+    { spanish: "silla", russian: "стул" },
+    { spanish: "mesero", russian: "официант" },
+    { spanish: "lugar", russian: "место" },
+    { spanish: "postre", russian: "десерт" },
+    { spanish: "salida", russian: "выход" },
+    { spanish: "lago", russian: "озеро" },
+    { spanish: "cinturón", russian: "ремень" },
+    { spanish: "bolso", russian: "сумка" },
+    { spanish: "abrigo", russian: "пальто" },
+    { spanish: "traje", russian: "костюм" },
+    { spanish: "camisa", russian: "рубашка" },
+    { spanish: "falda", russian: "юбка" },
+    { spanish: "bufanda", russian: "шарф" },
+    { spanish: "collar", russian: "ожерелье" },
+    { spanish: "vestido", russian: "платье" },
+    { spanish: "peluquería", russian: "парикмахерская" },
+    { spanish: "empresa", russian: "компания" },
+    { spanish: "jefe", russian: "начальник" },
+    { spanish: "abogado", russian: "адвокат" },
+    { spanish: "plátano", russian: "банан" },
+    { spanish: "pepino", russian: "огурец" },
+    { spanish: "pimiento", russian: "перец" },
+    { spanish: "zanahoria", russian: "морковь" },
+    { spanish: "manzana", russian: "яблоко" },
+    { spanish: "fresa", russian: "клубника" },
+    { spanish: "pera", russian: "груша" },
+    { spanish: "aguacate", russian: "авокадо" },
+    { spanish: "lima", russian: "лайм" },
+    { spanish: "almuerzo", russian: "обед" },
+    { spanish: "soy", russian: "я есть" },
+    { spanish: "es", russian: "есть/является" },
+    { spanish: "esta", russian: "этот/эта" },
+    { spanish: "no encuentro", russian: "не нахожу" },
+    { spanish: "hay", russian: "есть/имеется" },
+    { spanish: "oye", russian: "слушай" },
+    { spanish: "hace", russian: "делает" },
+    { spanish: "uso", russian: "использую" },
+    { spanish: "tiene", russian: "имеет" },
+    { spanish: "escuchar", russian: "слушать" },
+    { spanish: "viajar", russian: "путешествовать" },
+    { spanish: "pintar", russian: "рисовать" },
+    { spanish: "somos", russian: "мы есть" },
+    { spanish: "entrenar", russian: "тренировать" },
+    { spanish: "practicar", russian: "практиковать" },
+    { spanish: "nadar", russian: "плавать" },
+    { spanish: "esquiar", russian: "кататься на лыжах" },
+    { spanish: "caminar", russian: "гулять" },
+    { spanish: "levantar", russian: "поднимать" },
+    { spanish: "descansar", russian: "отдыхать" },
+    { spanish: "dibujar", russian: "рисовать" },
+    { spanish: "patinar", russian: "кататься на коньках" },
+    { spanish: "pescar", russian: "ловить рыбу" },
+    { spanish: "pasear", russian: "гулять" },
+    { spanish: "empieza", russian: "начинается" },
+    { spanish: "llevar", russian: "носить" },
+    { spanish: "buscar", russian: "искать" },
+    { spanish: "enseñar", russian: "учить" },
+    { spanish: "espere", russian: "подождите" },
+    { spanish: "pequeño", russian: "маленький" },
+    { spanish: "perezoso", russian: "ленивый" },
+    { spanish: "aburrido", russian: "скучный" },
+    { spanish: "grosero", russian: "грубый" },
+    { spanish: "malo", russian: "плохой" },
+    { spanish: "caro", russian: "дорогой" },
+    { spanish: "cómodo", russian: "удобный" },
+    { spanish: "barato", russian: "дешёвый" },
+    { spanish: "rojo", russian: "красный" },
+    { spanish: "morado", russian: "фиолетовый" },
+    { spanish: "largo", russian: "длинный" },
+    { spanish: "viejo", russian: "старый" },
+    { spanish: "trabajador", russian: "трудолюбивый" },
+    { spanish: "fácil", russian: "лёгкий" },
+    { spanish: "difícil", russian: "трудный" },
+    { spanish: "todos los días", russian: "каждый день" },
+    { spanish: "mal", russian: "плохо" },
+    { spanish: "pues", russian: "ну" },
+    { spanish: "para", russian: "для" },
+    { spanish: "bienvenido", russian: "добро пожаловать" },
+    { spanish: "mucho gusto", russian: "приятно познакомиться" },
+    { spanish: "bien", russian: "хорошо" },
+    { spanish: "solamente", russian: "только" },
+    { spanish: "en realidad", russian: "на самом деле" },
+    { spanish: "genial", russian: "отличный" },
+    { spanish: "muy bien", russian: "очень хорошо" },
+    { spanish: "un poco de", russian: "немного" },
+    { spanish: "qué tal", russian: "как дела" },
+    { spanish: "de dónde eres", russian: "откуда ты" },
+    { spanish: "encantado", russian: "рад познакомиться" },
+    { spanish: "cómo yo", russian: "как я" },
+    { spanish: "no crees", russian: "не думаешь" },
+    { spanish: "en general", russian: "в общем" },
+    { spanish: "creo que", russian: "я думаю, что" },
+    { spanish: "viento", russian: "ветер" },
+    { spanish: "ahora", russian: "сейчас" },
+    { spanish: "buen tiempo", russian: "хорошая погода" },
+    { spanish: "cuánto cuesta", russian: "сколько стоит" },
+    { spanish: "me gusta", russian: "мне нравится" },
+    { spanish: "tiempo libre", russian: "свободное время" },
+    { spanish: "es divertido", russian: "это весело" },
+    { spanish: "qué haces", russian: "что делаешь" },
+    { spanish: "cómo es", russian: "какой он" },
+    { spanish: "bueno", russian: "хороший" },
+    { spanish: "donde", russian: "где" },
+    { spanish: "por aquí", russian: "здесь рядом" },
+    { spanish: "mucho", russian: "много" },
+    { spanish: "más", russian: "больше" },
+    { spanish: "este", russian: "этот" },
+    { spanish: "lejos", russian: "далеко" },
+    { spanish: "está", russian: "находится" },
+    { spanish: "hoy", russian: "сегодня" },
+    { spanish: "honestamente", russian: "честно" },
+    { spanish: "a menudo", russian: "часто" },
+    { spanish: "siempre", russian: "всегда" },
+    { spanish: "ya no", russian: "больше не" },
+    { spanish: "entonces", russian: "тогда" },
+    { spanish: "así", russian: "так" },
+    { spanish: "así es", russian: "так и есть" },
+    { spanish: "un poco", russian: "немного" },
+    { spanish: "disculpe", russian: "извините" },
+    { spanish: "lo siento", russian: "извините" },
+    { spanish: "claro", russian: "конечно" },
+    { spanish: "enfrente", russian: "напротив" },
+    { spanish: "a la derecha", russian: "справа" },
+    { spanish: "a la izquierda", russian: "слева" },
+    { spanish: "bastante", russian: "довольно" },
+        { spanish: "aquí tiene", russian: "вот, возьмите" },
+        { spanish: "juntos", russian: "вместе" },
+        { spanish: "un minuto", russian: "минуту" },
+        { spanish: "ahora mismo", russian: "прямо сейчас" }
+    ];
+
+// Определяем currentWords в зависимости от параметра list
+let currentWords;
+const urlParams = new URLSearchParams(window.location.search);
+const list = urlParams.get('list');
+if (list === 'short') {
+    currentWords = shortWords;
+} else {
+    currentWords = fullWords;
+}
+
 // Переменные состояния
 let currentPairs = [];
 let rightColumn = [];
 let selectedSpanish = null;
 let poolIndex = 4;
-let consecutiveCorrect = 0; // Переменная для счетчика подряд угаданных слов
+let consecutiveCorrect = 0;
 
 // Функция для перемешивания массива
 function shuffle(array) {
@@ -469,27 +656,25 @@ function selectRussian(index) {
     if (selectedRussian === selectedWord.russian) {
         wordDiv.classList.add("correct");
         transDiv.classList.add("correct");
-        consecutiveCorrect++; // Увеличиваем счетчик при правильном ответе
-        updateCounter(); // Обновляем отображение
+        consecutiveCorrect++;
+        updateCounter();
         setTimeout(() => replacePair(selectedSpanish), 1000);
-        // window.Telegram.WebApp.showAlert("Правильно!"); // Комментарий: алерт удален
     } else {
         wordDiv.classList.add("incorrect");
         transDiv.classList.add("incorrect");
-        consecutiveCorrect = 0; // Сбрасываем счетчик при ошибке
-        updateCounter(); // Обновляем отображение
+        consecutiveCorrect = 0;
+        updateCounter();
         setTimeout(() => {
             wordDiv.classList.remove("incorrect");
             transDiv.classList.remove("incorrect");
         }, 1000);
-        // window.Telegram.WebApp.showAlert("Неправильно, попробуй снова!"); // Комментарий: алерт удален
     }
 }
 
-// Замена пары после правильного выбора с перемешиванием обоих столбцов
+// Замена пары после правильного выбора
 function replacePair(spanishIndex) {
-    const newPair = words[poolIndex];
-    poolIndex = (poolIndex + 1) % words.length;
+    const newPair = currentWords[poolIndex];
+    poolIndex = (poolIndex + 1) % currentWords.length;
 
     currentPairs[spanishIndex] = newPair;
     shuffle(currentPairs);
@@ -503,24 +688,23 @@ function replacePair(spanishIndex) {
     selectedSpanish = null;
 }
 
-// Функция для обновления счетчика
+// Обновление счетчика
 function updateCounter() {
     const counterElement = document.getElementById("counter");
-    counterElement.textContent = `Угадано подряд: ${consecutiveCorrect}`;
+    counterElement.textContent = Угадано подряд: ${consecutiveCorrect};
 }
-
 // Инициализация приложения
 function init() {
-    shuffle(words);
-    currentPairs = words.slice(0, 4);
+    shuffle(currentWords);
+    currentPairs = currentWords.slice(0, 4);
     rightColumn = currentPairs.map(pair => pair.russian);
     shuffle(rightColumn);
     renderLeftColumn();
     renderRightColumn();
-    updateCounter(); // Инициализируем счетчик при запуске
+    updateCounter();
 
-    window.Telegram.WebApp.ready(); // Сообщаем Telegram, что приложение готово
-    window.Telegram.WebApp.expand(); // Разворачиваем приложение на полный экран
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
 }
 
 // Запуск приложения
