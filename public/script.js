@@ -584,10 +584,13 @@ const shortWords = [
 let currentWords;
 const urlParams = new URLSearchParams(window.location.search);
 const list = urlParams.get('list');
+console.log('Selected list:', list); // Логирование для проверки
 if (list === 'short') {
     currentWords = shortWords;
+    console.log('Using shortWords:', shortWords.length);
 } else {
     currentWords = fullWords;
+    console.log('Using fullWords:', fullWords.length);
 }
 
 // Переменные состояния
@@ -608,6 +611,10 @@ function shuffle(array) {
 // Отрисовка левой колонки (испанские слова)
 function renderLeftColumn() {
     const leftColumn = document.getElementById("left-column");
+    if (!leftColumn) {
+        console.error('Left column not found');
+        return;
+    }
     leftColumn.innerHTML = "";
     currentPairs.forEach((pair, index) => {
         const wordDiv = document.createElement("div");
@@ -617,11 +624,16 @@ function renderLeftColumn() {
         wordDiv.addEventListener("click", () => selectSpanish(index));
         leftColumn.appendChild(wordDiv);
     });
+    console.log('Left column rendered with:', currentPairs);
 }
 
 // Отрисовка правой колонки (русские переводы)
 function renderRightColumn() {
     const rightColumnDiv = document.getElementById("right-column");
+    if (!rightColumnDiv) {
+        console.error('Right column not found');
+        return;
+    }
     rightColumnDiv.innerHTML = "";
     rightColumn.forEach((russian, index) => {
         const transDiv = document.createElement("div");
@@ -631,6 +643,7 @@ function renderRightColumn() {
         transDiv.addEventListener("click", () => selectRussian(index));
         rightColumnDiv.appendChild(transDiv);
     });
+    console.log('Right column rendered with:', rightColumn);
 }
 
 // Выбор испанского слова
@@ -687,18 +700,26 @@ function replacePair(spanishIndex) {
 
     selectedSpanish = null;
 }
-
 // Обновление счетчика
 function updateCounter() {
     const counterElement = document.getElementById("counter");
+    if (!counterElement) {
+        console.error('Counter element not found');
+        return;
+    }
     counterElement.textContent = Угадано подряд: ${consecutiveCorrect};
 }
+
 // Инициализация приложения
 function init() {
     shuffle(currentWords);
     currentPairs = currentWords.slice(0, 4);
     rightColumn = currentPairs.map(pair => pair.russian);
     shuffle(rightColumn);
+
+    console.log('Initial currentPairs:', currentPairs);
+    console.log('Initial rightColumn:', rightColumn);
+
     renderLeftColumn();
     renderRightColumn();
     updateCounter();
@@ -707,5 +728,4 @@ function init() {
     window.Telegram.WebApp.expand();
 }
 
-// Запуск приложения
 init();
