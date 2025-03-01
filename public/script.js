@@ -1,5 +1,5 @@
 // Список слов с переводами
-const words = [
+const fullWords = [
     { spanish: "yo", russian: "я" },
     { spanish: "tú", russian: "ты" },
     { spanish: "él", russian: "он" },
