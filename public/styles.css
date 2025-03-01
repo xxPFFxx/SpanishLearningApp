@@ -43,7 +43,11 @@
   margin-top: 20px;
 }
 
+.fire {
+  font-size: 24px;
+}
+
 #counter {
-  font-size: 20px;
-  font-weight: bold;
+  color: orange;  
+  font-size: 24px; 
 }

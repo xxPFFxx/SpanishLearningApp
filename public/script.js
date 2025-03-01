@@ -700,14 +700,14 @@ function replacePair(spanishIndex) {
 
     selectedSpanish = null;
 }
-// Обновление счетчика
+
 function updateCounter() {
     const counterElement = document.getElementById("counter");
     if (!counterElement) {
-        console.error('Counter element not found');
+        console.error('Элемент счетчика не найден');
         return;
     }
-    counterElement.textContent = 'Угадано подряд: ${consecutiveCorrect}';
+    counterElement.textContent = consecutiveCorrect;
 }
 
 // Инициализация приложения
