@@ -581,7 +581,7 @@ const shortWords = [
     ];
 
 // Определяем currentWords в зависимости от параметра list
-let currentWords;
+let currentWords = fullWords;
 const urlParams = new URLSearchParams(window.location.search);
 const list = urlParams.get('list');
 console.log('Selected list:', list); // Логирование для проверки
@@ -707,7 +707,7 @@ function updateCounter() {
         console.error('Counter element not found');
         return;
     }
-    counterElement.textContent = Угадано подряд: ${consecutiveCorrect};
+    counterElement.textContent = 'Угадано подряд: ${consecutiveCorrect}';
 }
 
 // Инициализация приложения
